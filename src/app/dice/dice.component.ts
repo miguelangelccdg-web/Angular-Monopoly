@@ -91,39 +91,40 @@ export class DiceComponent {
     { name: 'Reading Railroad', top: 105, left: 49, property: this.properties[2] },
     { name: 'Oriental Avenue', top: 105, left: 45, property: this.properties[3] },
     { name: 'Chance', top: 105, left: 40, isChance: true },
-    { name: 'Vermont Avenue', top: 105, left: 36 },
-    { name: 'Connecticut Avenue', top: 105, left: 31 },
+    { name: 'Vermont Avenue', top: 105, left: 36, property: this.properties[4] },
+    { name: 'Connecticut Avenue', top: 105, left: 31, property: this.properties[5] },
     { name: 'Jail', top: 96, left: 27 },
-    { name: 'St. Charles Place', top: 87, left: 27 },
-    { name: 'Electric Company', top: 78, left: 27 },
-    { name: 'States Avenue', top: 69, left: 27 },
-    { name: 'Virginia Avenue', top: 60, left: 27 },
-    { name: 'Pennsylvania Railroad', top: 51, left: 27 },
-    { name: 'St. James Place', top: 42, left: 27 },
+    { name: 'St. Charles Place', top: 87, left: 27, property: this.properties[6] },
+    { name: 'Electric Company', top: 78, left: 27, property: this.properties[7] },
+    { name: 'States Avenue', top: 69, left: 27, property: this.properties[8] },
+    { name: 'Virginia Avenue', top: 60, left: 27, property: this.properties[9] },
+    { name: 'Pennsylvania Railroad', top: 51, left: 27, property: this.properties[10] },
+    { name: 'St. James Place', top: 42, left: 27, property: this.properties[11] },
     { name: 'Community Chest', top: 33, left: 27, isCommunityChest: true },
-    { name: 'Tennessee Avenue', top: 24, left: 27 },
-    { name: 'New York Avenue', top: 15, left: 27 },
+    { name: 'Tennessee Avenue', top: 24, left: 27, property: this.properties[12] },
+    { name: 'New York Avenue', top: 15, left: 27, property: this.properties[13] },
     { name: 'Free Parking', top: 15, left: 31 },
-    { name: 'Kentucky Avenue', top: 15, left: 36 },
+    { name: 'Kentucky Avenue', top: 15, left: 36, property: this.properties[14] },
     { name: 'Chance', top: 15, left: 40, isChance: true },
-    { name: 'Indiana Avenue', top: 15, left: 45 },
-    { name: 'Illinois Avenue', top: 15, left: 49 },
-    { name: 'B&O Railroad', top: 15, left: 53 },
-    { name: 'Atlantic Avenue', top: 15, left: 57 },
-    { name: 'Ventnor Avenue', top: 15, left: 62 },
-    { name: 'Water Works', top: 15, left: 67 },
-    { name: 'Marvin Gardens', top: 15, left: 72 },
+    { name: 'Indiana Avenue', top: 15, left: 45, property: this.properties[15] },
+    { name: 'Illinois Avenue', top: 15, left: 49, property: this.properties[16] },
+    { name: 'B&O Railroad', top: 15, left: 53, property: this.properties[17] },
+    { name: 'Atlantic Avenue', top: 15, left: 57, property: this.properties[18] },
+    { name: 'Ventnor Avenue', top: 15, left: 62, property: this.properties[19] },
+    { name: 'Water Works', top: 15, left: 67, property: this.properties[20] },
+    { name: 'Marvin Gardens', top: 15, left: 72, property: this.properties[21] },
     { name: 'Go to Jail', top: 24, left: 72 },
-    { name: 'Pacific Avenue', top: 33, left: 72 },
-    { name: 'North Carolina Avenue', top: 42, left: 72 },
+    { name: 'Pacific Avenue', top: 33, left: 72, property: this.properties[22] },
+    { name: 'North Carolina Avenue', top: 42, left: 72, property: this.properties[23] },
     { name: 'Community Chest', top: 51, left: 72, isCommunityChest: true },
-    { name: 'Pennsylvania Avenue', top: 60, left: 72 },
-    { name: 'Short Line', top: 69, left: 72 },
+    { name: 'Pennsylvania Avenue', top: 60, left: 72, property: this.properties[24] },
+    { name: 'Short Line', top: 69, left: 72, property: this.properties[25] },
     { name: 'Chance', top: 78, left: 72, isChance: true },
-    { name: 'Park Place', top: 87, left: 72 },
+    { name: 'Park Place', top: 87, left: 72, property: this.properties[26] },
     { name: 'Luxury Tax', top: 96, left: 72 },
-    { name: 'Boardwalk', top: 105, left: 72 }
+    { name: 'Boardwalk', top: 105, left: 72, property: this.properties[27] }
   ];
+  
 
   constructor() {
     this.currentPlayer = this.players.find(player => player.isTurn) || null;
@@ -170,6 +171,19 @@ export class DiceComponent {
     card.effect(this.currentPlayer!);
     this.endTurn();
   }
+
+  promptPropertyPurchase(property: Property): void {
+    if (confirm(`¿Quieres comprar ${property.name} por $${property.cost}?`)) {
+      if (this.currentPlayer && this.currentPlayer.balance >= property.cost) {
+        this.currentPlayer.balance -= property.cost;
+        property.owner = this.currentPlayer;
+        this.currentPlayer.properties.push(property);
+      } else {
+        alert('No tienes suficiente dinero para comprar esta propiedad.');
+      }
+    }
+    this.endTurn();
+  }
   
   payRent(property: Property): void {
     if (this.currentPlayer && property.owner) {
@@ -187,18 +201,7 @@ export class DiceComponent {
   }
   
 
-  promptPropertyPurchase(property: Property): void {
-    if (confirm(`¿Quieres comprar ${property.name} por $${property.cost}?`)) {
-      if (this.currentPlayer && this.currentPlayer.balance >= property.cost) {
-        this.currentPlayer.balance -= property.cost;
-        property.owner = this.currentPlayer;
-        this.currentPlayer.properties.push(property);
-      } else {
-        alert('No tienes suficiente dinero para comprar esta propiedad.');
-      }
-    }
-    this.endTurn();
-  }
+  
 
   endTurn(): void {
     if (this.currentPlayer) {
