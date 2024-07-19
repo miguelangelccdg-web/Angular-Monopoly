@@ -1,0 +1,31 @@
+<!-- dice.component.html -->
+<div class="dice-container">
+  <!-- Indicador de turno -->
+  <div *ngIf="currentPlayer" class="turn-indicator">
+    Turno de: {{ currentPlayer.name }}
+  </div>
+
+  <!-- Botón para tirar el dado -->
+  <button (click)="rollDice()">Tirar dado</button>
+
+  <!-- Contenedor para el resultado del dado -->
+  <div id="diceResult">Resultado: {{ diceResult }}</div>
+
+  <!-- Aquí se mostrará el tablero y las fichas -->
+  <div id="board">
+    <div *ngFor="let position of positions" class="cell" [ngStyle]="{ 'top.%': position.top, 'left.%': position.left }">
+      {{ position.name }}
+    </div>
+
+    <!-- Muestra las fichas de todos los jugadores -->
+    <div *ngFor="let player of players" class="piece" [ngStyle]="getPieceStyle(player)">
+      {{ player.name }}
+    </div>
+  </div>
+
+  <!-- Componente para mostrar los saldos de los jugadores -->
+  <app-player-balance [players]="players"></app-player-balance>
+
+
+<app-player-info [players]="players"></app-player-info>
+</div>

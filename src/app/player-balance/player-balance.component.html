@@ -1,0 +1,10 @@
+<!-- player-balance.component.html -->
+<div class="player-balance-container">
+    <h3>Balances de los Jugadores</h3>
+    <ul>
+      <li *ngFor="let player of players">
+        {{ player.name }}: ${{ player.balance }}
+      </li>
+    </ul>
+  </div>
+  

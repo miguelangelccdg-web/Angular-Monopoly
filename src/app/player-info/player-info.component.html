@@ -1,0 +1,8 @@
+<div *ngFor="let player of players" class="player-info">
+    <h3>{{ player.name }} - Saldo: ${{ player.balance }}</h3>
+    <p>Propiedades:</p>
+    <ul>
+      <li *ngFor="let property of player.properties">{{ property.name }} (${{ property.cost }})</li>
+    </ul>
+  </div>
+  
